@@ -1,1 +1,22 @@
-<p>login works!</p>
+<nz-alert style="margin: auto;margin-top: 2%; margin-right: 2%;width: 40%;" nzBanner *ngIf="showAlert" nzType="error"
+    [nzMessage]="errorMessage" nzCloseable (nzOnClose)="showAlert = false">
+</nz-alert>
+<nz-card style="width:300px; margin: auto; margin-top: 10%;">
+    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Por favor ingresa tu nombre de usuario!">
+                <nz-input-group nzPrefixIcon="user">
+                    <input type="text" nz-input formControlName="NombreUsuario" placeholder="Usuario" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Por favor ingresa tu contraseña!">
+                <nz-input-group nzPrefixIcon="lock">
+                    <input type="password" nz-input formControlName="Contrasena" placeholder="Contraseña" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <button nz-button class="login-form-button login-form-margin">Ingresar</button>
+    </form>
+</nz-card>

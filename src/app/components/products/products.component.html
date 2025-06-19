@@ -1,1 +1,39 @@
-<p>products works!</p>
+<h2 class="login-form-title" style="margin: 20px;">Productos</h2>
+
+<button nz-button class="login-form-button login-form-margin" (click)="showModal()">Nuevo Producto</button>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <app-product-create-edit  [product]="product"></app-product-create-edit>
+  </ng-container>
+</nz-modal>
+
+<nz-table style="margin: 20px;" #basicTable [nzData]="products">
+  <thead>
+    <tr>
+      <th>Codigo Producto</th>
+      <th>Nombre</th>
+      <th>Descripcion</th>
+      <th>Referencia</th>
+      <th>Precio Unidad</th>
+      <th>Activo</th>
+      <th>Unidad Medida</th>
+      <th>Fecha Creacion</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data.codigoProducto }}</td>
+      <td>{{ data.nombre }}</td>
+      <td>{{ data.descripcion }}</td>
+      <td>{{ data.referenciaInterna }}</td>
+      <td>{{ data.precioUnitario }}</td>
+      <td>{{ data.estado }}</td>
+      <td>{{ data.unidadMedida }}</td>
+      <td>{{ data.fechaCreacion }}</td>
+      <td>{{ data.id }}
+        <a>Delete</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
