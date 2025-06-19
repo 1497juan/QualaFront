@@ -1,6 +1,55 @@
-<form (ngSubmit)="submitForm()">
-
-  <!-- Otros campos para el producto -->
-
-  <button type="submit">Guardar</button>
+<form nz-form [formGroup]="productForm" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="codigoProducto">Codigo</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor llene el campo de codigo producto">
+      <input nz-input formControlName="codigoProducto" id="codigoProducto" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="nombre">Nombre</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor llene el campo de nombre">
+      <input nz-input formControlName="nombre" id="nombre" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="descripcion">Descripción</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor llene el campo de descripción">
+      <input nz-input formControlName="descripcion" id="descripcion" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="referenciaInterna">Referencia</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor llene el campo de referencia">
+      <input nz-input formControlName="referenciaInterna" id="referenciaInterna" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="precioUnitario">Precio</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor llene el campo de precio unitario">
+      <input nz-input formControlName="precioUnitario" id="precioUnitario" type="number" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="unidadMedida">Medida</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24"  nzErrorTip="Por favor llene el campo de unidad de medida">
+      <input nz-input formControlName="unidadMedida" id="unidadMedida" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="fechaCreacion">Fecha Creación</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Por favor llene el campo de fecha de creación">
+      <input nz-input formControlName="fechaCreacion" id="fechaCreacion" type="date" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="estado">Estado</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <nz-switch formControlName="estado" id="estado"></nz-switch>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button class="login-form-button login-form-margin">Guardar</button>
+    </nz-form-control>
+  </nz-form-item>
 </form>

@@ -1,47 +1,81 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
+import { CommonModule } from '@angular/common';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 @Component({
   selector: 'app-product-create-edit',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, ReactiveFormsModule, NzFormModule, NzSwitchModule],
   templateUrl: './product-create-edit.component.html',
   styleUrl: './product-create-edit.component.scss'
 })
-export class ProductCreateEditComponent {
+export class ProductCreateEditComponent implements OnInit {
   @Input() product: Product | null = null;
+  @Output() closeModal = new EventEmitter<void>();
 
-  constructor(private productService: ProductService) { }
+  productForm!: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private productService: ProductService
+  ) { }
 
   ngOnInit(): void {
+    this.initForm();
+
     if (this.product) {
-      console.log('Producto a editar:', this.product); 
-    } else {
-      console.log('Nuevo producto'); 
+      this.productForm.patchValue(this.product);
     }
   }
 
-  submitForm(): void {
-    if (this.product) {
-      this.productService.updateProduct(this.product.id, this.product).subscribe(() => {
-        console.log('Producto actualizado');
-      });
-    } else {
-      const newProduct: Product = {
-        id: 0,
-        codigoProducto: 14,
-        nombre: 'Nuevo Producto',
-        descripcion: 'Descripción del nuevo producto',
-        referenciaInterna: 'Ref123',
-        precioUnitario: 100,
-        estado: true,
-        unidadMedida: 'Unidad',
-        fechaCreacion: new Date()
-      };
-      this.productService.createProduct(newProduct).subscribe(() => {
-        console.log('Producto creado');
-      });
+
+  initForm() {
+    console.log(new Date);
+    const now = new Date();
+
+    this.productForm = this.fb.group({
+      id: [0],
+      codigoProducto: [null, Validators.required],
+      nombre: ['', Validators.required],
+      descripcion: ['', Validators.required],
+      referenciaInterna: ['', Validators.required],
+      precioUnitario: [null, [Validators.required, Validators.min(0)]],
+      estado: [true],
+      unidadMedida: ['', Validators.required],
+      fechaCreacion: [new Date(), Validators.required],
+    });
+  }
+
+  submitForm() {
+    if (this.productForm.invalid) {
+      console.log('Formulario inválido');
+      return;
     }
+    console.log(this.productForm.value);
+
+    if (this.productForm.value.id === 0) {
+      this.productService.createProduct(this.productForm.value).subscribe(
+        (response) => {
+          console.log('Producto creado:', response);
+        },
+        (error) => {
+          console.error('Error al crear producto:', error);
+        }
+      );
+    } else {
+      this.productService.updateProduct(this.productForm.value.id, this.productForm.value).subscribe(
+        (response) => {
+          console.log('Producto actualizado:', response);
+        },
+        (error) => {
+          console.error('Error al actualizar producto:', error);
+        }
+      );
+    }
+    this.closeModal.emit();
   }
 }

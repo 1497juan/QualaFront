@@ -71,16 +71,18 @@ export class ProductsComponent implements OnInit {
     );
   }
 
-  loadProductById(id: number): void {
-    this.productService.getProductById(id).subscribe(
-      (product) => {
-        console.log('Producto cargado:', product);
-      },
-      (error) => {
-        console.error('Error al cargar producto por ID:', error);
-      }
-    );
-  }
+  editProduct(id: number): void {
+  this.productService.getProductById(id).subscribe(
+    (product) => {
+      this.product = product;       // ← este objeto lo pasas al formulario como @Input()
+      this.isVisible = true;        // ← abres el modal
+    },
+    (error) => {
+      console.error('Error al cargar producto por ID:', error);
+    }
+  );
+}
+
 
   updateProduct(id: number): void {
     const updatedProduct: Product = {
@@ -109,24 +111,11 @@ export class ProductsComponent implements OnInit {
   isVisible = false;
   showModal(): void {
     this.isVisible = true;
-    this.product = null;  // Inicializa el producto vacío (para crear)
+    this.product = null;
   }
 
-  // Método para editar un producto
-  editProduct(product: Product): void {
-    this.product = product;  // Asigna el producto para editar
-    this.isVisible = true;   // Muestra el modal
-  }
-
-  // Método para cerrar el modal
-  handleCancel(): void {
-    this.isVisible = false;
-    this.product = null;  // Limpia el producto cuando se cierra el modal
-  }
-
-  // Método para manejar la acción de 'Aceptar' (por ejemplo, guardar el producto)
-  handleOk(): void {
-    this.isVisible = false;  // Cerrar el modal después de realizar la acción
+  onModalClosed(): void {
+    this.loadProducts();
   }
 
 }
